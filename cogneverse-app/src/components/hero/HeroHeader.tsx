@@ -1,6 +1,6 @@
 "use client";
 import { useMediaQuery } from "@/hooks/use-media-query"; // Need to check if this hook exists or create it
-import ThemeSwitch from "@/components/hero/ThemeSwitch";
+// import ThemeSwitch from "@/components/hero/ThemeSwitch";
 import { cn } from "@/lib/utils";
 import { AlignJustify, X, BrainCircuit, Users, Rocket, Wallet } from "lucide-react"; // Updated icons
 import Link from "next/link";
@@ -114,7 +114,7 @@ export default function HeroHeader() {
 
         {/* Right Actions */}
         <nav className="flex items-center gap-2 sm:gap-3">
-          <ThemeSwitch />
+          {/* <ThemeSwitch /> */}
           
           <a
             href="https://github.com" // Placeholder

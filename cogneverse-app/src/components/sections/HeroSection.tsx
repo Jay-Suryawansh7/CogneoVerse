@@ -2,13 +2,14 @@
 
 import { cn } from "@/lib/utils";
 import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import HeroHeader from "@/components/hero/HeroHeader";
 import NewItemsLoading from "@/components/hero/NewItemsLoading";
 import WordAnimator from "@/components/ui/word-animator";
 import ShimmerButton from "@/components/ui/shimmer-button";
 import { Button } from "@/components/ui/button";
 import { ChevronsRight } from "lucide-react";
-import { Section } from "@/components/layout/Section";
+// import { Section } from "@/components/layout/Section";
 
 export function HeroSection() {
   const [blocks, setBlocks] = useState<React.ReactNode[]>([]);
@@ -65,12 +66,15 @@ export function HeroSection() {
   const words = ["Robots", "AI Models", "Systems", "Future"];
 
   return (
-    <Section id="hero" className="p-0 overflow-hidden relative">
+    <div id="hero" className="p-0 overflow-hidden relative w-full">
       <HeroHeader />
       
       <section className="h-screen overflow-hidden relative pb-20 dark:bg-[var(--color-onyx)] bg-[var(--color-paper)]">
         {/* Radial Background */}
-        <div className="absolute inset-0 z-0 h-screen w-full dark:bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[radial-gradient(#000000_1px,transparent_1px)] bg-[size:16px_16px] opacity-10"></div>
+        <div 
+          className="absolute inset-0 z-0 h-full w-full dark:bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[radial-gradient(#000000_1px,transparent_1px)] opacity-10"
+          style={{ backgroundSize: "16px 16px" }}
+        ></div>
         
         {/* Gradient Overlay */}
         <div className="absolute inset-0 top-0 left-0 h-screen w-full items-center px-5 py-24 bg-gradient-to-t dark:from-[var(--color-onyx)] from-[var(--color-paper)] from-0% to-transparent to-60%"></div>
@@ -164,12 +168,24 @@ export function HeroSection() {
               </a>
             </Button>
           </div>
+
+          {/* Floating People Illustration */}
+          <div className="mt-16 flex justify-center w-full animate-float relative z-10 pointer-events-none select-none">
+            <Image
+              src="/people.svg"
+              alt="Cogneverse Community"
+              width={1000}
+              height={500}
+              className="w-full max-w-5xl h-auto opacity-95 drop-shadow-2xl"
+              priority
+            />
+          </div>
         </article>
 
         <div className="flex h-screen overflow-hidden top-0 left-0 inset-0 z-0 absolute pointer-events-none">
           {blocks}
         </div>
       </section>
-    </Section>
+    </div>
   );
 }
