@@ -2,7 +2,7 @@
 import { useMediaQuery } from "@/hooks/use-media-query"; // Need to check if this hook exists or create it
 // import ThemeSwitch from "@/components/hero/ThemeSwitch";
 import { cn } from "@/lib/utils";
-import { AlignJustify, X, BrainCircuit, Users, Rocket, Wallet } from "lucide-react"; // Updated icons
+import { AlignJustify, X, BrainCircuit, Users, Rocket, Wallet, FileText, GraduationCap } from "lucide-react"; // Updated icons
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -31,6 +31,8 @@ export default function HeroHeader() {
     { href: "#departments", label: "Departments", icon: BrainCircuit },
     { href: "#projects", label: "Projects", icon: Rocket },
     { href: "#community", label: "Community", icon: Users },
+    { href: "#resources", label: "Resources", icon: FileText },
+    { href: "#academy", label: "Courses", icon: GraduationCap },
   ];
 
   return (
