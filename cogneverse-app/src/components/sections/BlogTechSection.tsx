@@ -120,75 +120,88 @@ export function BlogSection() {
 }
 
 
-// Tech Stack Section - From copywriting.md
+
+// Tech Stack Section - Marquee Style
+import Marquee from "@/components/ui/marquee";
+
+const technologies = [
+  // Databases
+  { name: "PostgreSQL", icon: "https://cdn.simpleicons.org/postgresql/3178C6" },
+  { name: "MongoDB", icon: "https://cdn.simpleicons.org/mongodb/47A248" },
+  { name: "Redis", icon: "https://cdn.simpleicons.org/redis/DC382D" },
+  { name: "MySQL", icon: "https://cdn.simpleicons.org/mysql/4479A1" },
+  { name: "Cassandra", icon: "https://cdn.simpleicons.org/apachecassandra/1287B1" },
+  { name: "Supabase", icon: "https://cdn.simpleicons.org/supabase/3ECF8E" },
+  
+  // JS/Frameworks
+  { name: "React", icon: "https://cdn.simpleicons.org/react/61DAFB" },
+  { name: "Next.js", icon: "https://cdn.simpleicons.org/next.js/000000" },
+  { name: "Vue.js", icon: "https://cdn.simpleicons.org/vue.js/4FC08D" },
+  { name: "Svelte", icon: "https://cdn.simpleicons.org/svelte/FF3E00" },
+  { name: "Node.js", icon: "https://cdn.simpleicons.org/node.js/5FA04E" },
+  { name: "Express", icon: "https://cdn.simpleicons.org/express/000000" },
+  { name: "NestJS", icon: "https://cdn.simpleicons.org/nestjs/E0234E" },
+  
+  // Python
+  { name: "Python", icon: "https://cdn.simpleicons.org/python/3776AB" },
+  { name: "Django", icon: "https://cdn.simpleicons.org/django/092E20" },
+  { name: "Flask", icon: "https://cdn.simpleicons.org/flask/000000" },
+  { name: "FastAPI", icon: "https://cdn.simpleicons.org/fastapi/009688" },
+  { name: "Pandas", icon: "https://cdn.simpleicons.org/pandas/150458" },
+  
+  // Languages & Others
+  { name: "Go", icon: "https://cdn.simpleicons.org/go/00ADD8" },
+  { name: "Rust", icon: "https://cdn.simpleicons.org/rust/000000" },
+  { name: "Dart", icon: "https://cdn.simpleicons.org/dart/0175C2" },
+  { name: "TypeScript", icon: "https://cdn.simpleicons.org/typescript/3178C6" },
+  { name: "Docker", icon: "https://cdn.simpleicons.org/docker/2496ED" },
+  { name: "Kubernetes", icon: "https://cdn.simpleicons.org/kubernetes/326CE5" },
+];
+
 export function TechStackSection() {
-  // Stack Categories from copywriting.md
-  const techCategories = [
-    {
-      name: "Frontend",
-      techs: ["React", "Next.js", "Tailwind CSS"],
-    },
-    {
-      name: "Backend",
-      techs: ["Node.js", "Python", "FastAPI"],
-    },
-    {
-      name: "AI/ML",
-      techs: ["PyTorch", "TensorFlow", "OpenAI APIs"],
-    },
-    {
-      name: "DevOps",
-      techs: ["Docker", "Kubernetes", "GitHub Actions"],
-    },
-    {
-      name: "Cloud",
-      techs: ["AWS", "GCP", "Vercel"],
-    },
-    {
-      name: "Database",
-      techs: ["PostgreSQL", "Redis", "MongoDB"],
-    },
-  ];
+  const firstRow = technologies.slice(0, technologies.length / 2);
+  const secondRow = technologies.slice(technologies.length / 2);
 
   return (
-    <Section id="techstack">
-      {/* Title and Description from copywriting.md */}
-      <SectionHeader
-        title="Built on Modern Engineering"
-        subtitle="Cogneverse is powered by a scalable, secure, and high-performance technology stack."
-      />
-
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {techCategories.map((category, index) => (
-          <motion.div
-            key={category.name}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={revealVariants}
-            transition={{ delay: index * 0.1 }}
-            className="bg-white p-6 rounded-xl shadow-md border border-[var(--color-ink)]/5"
-            style={{ borderRadius: "12px" }}
-          >
-            <h4
-              className="font-semibold text-[var(--color-oceanic)] mb-4"
-              style={{ fontFamily: "var(--font-display)" }}
+    <Section id="techstack" className="py-20 overflow-hidden bg-[var(--color-paper)]">
+       <div className="container mx-auto px-4 mb-12 text-center">
+            <h2 
+                className="text-3xl md:text-5xl font-bold text-[var(--color-ink)] mb-6"
+                style={{ fontFamily: "var(--font-display)" }}
             >
-              {category.name}
-            </h4>
-            <div className="flex flex-wrap gap-2">
-              {category.techs.map((tech) => (
-                <span
-                  key={tech}
-                  className="btn-secondary"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </motion.div>
-        ))}
+                Powered by Modern Tech
+            </h2>
+            <p className="text-[var(--color-ink)]/70 text-lg max-w-2xl mx-auto">
+                Our ecosystem is built on a robust, scalable foundation of industry-leading technologies.
+            </p>
+        </div>
+
+      <div className="relative flex flex-col gap-8">
+        <Marquee pauseOnHover className="[--duration:50s]">
+          {firstRow.map((tech) => (
+            <TechCard key={tech.name} {...tech} />
+          ))}
+        </Marquee>
+        <Marquee reverse pauseOnHover className="[--duration:50s]">
+          {secondRow.map((tech) => (
+            <TechCard key={tech.name} {...tech} />
+          ))}
+        </Marquee>
+        
+        {/* Gradients to fade edges */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-[var(--color-paper)] dark:from-background"></div>
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-[var(--color-paper)] dark:from-background"></div>
       </div>
     </Section>
   );
 }
+
+function TechCard({ name, icon }: { name: string; icon: string }) {
+  return (
+    <div className="flex items-center gap-3 px-6 py-3 bg-white border border-[var(--color-ink)]/10 rounded-full shadow-sm hover:shadow-md transition-shadow cursor-default mx-2">
+      <img src={icon} alt={name} className="w-6 h-6 object-contain" />
+      <span className="text-sm font-semibold text-[var(--color-ink)]">{name}</span>
+    </div>
+  );
+}
+
