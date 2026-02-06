@@ -25,11 +25,11 @@ const teamFeatures = [
 ];
 
 const teamAvatars = [
-  { name: "Sarah Chen", role: "ML Engineer", color: "#FF6B6B" },
-  { name: "James Wilson", role: "Backend Dev", color: "#4ECDC4" },
-  { name: "Priya Sharma", role: "UX Designer", color: "#FFE66D" },
-  { name: "Alex Kim", role: "Robotics Lead", color: "#95E1D3" },
-  { name: "Marcus Brown", role: "DevOps", color: "#DDA0DD" },
+  { name: "Sarah Chen", role: "ML Engineer", color: "var(--color-pink-eraser)" },
+  { name: "James Wilson", role: "Backend Dev", color: "var(--color-oceanic)" },
+  { name: "Priya Sharma", role: "UX Designer", color: "var(--color-nectarine)" },
+  { name: "Alex Kim", role: "Robotics Lead", color: "var(--color-cobalt)" },
+  { name: "Marcus Brown", role: "DevOps", color: "var(--color-oceanic)" },
 ];
 
 export function TeamsSection() {

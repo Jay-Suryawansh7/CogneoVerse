@@ -14,7 +14,7 @@ const testimonials = [
     role: "Founder & CEO",
     company: "NeuralTech AI",
     avatar: "AR",
-    color: "#FF6B6B",
+    color: "var(--color-pink-eraser)",
   },
   {
     quote: "As a student, finding real-world projects to work on was always a challenge. Cogneverse connected me with teams building actual products.",
@@ -22,7 +22,7 @@ const testimonials = [
     role: "ML Engineer",
     company: "Formerly Student at MIT",
     avatar: "DP",
-    color: "#4ECDC4",
+    color: "var(--color-oceanic)",
   },
   {
     quote: "The quality of collaboration here is exceptional. We've hired three team members through Cogneverse who have been outstanding.",

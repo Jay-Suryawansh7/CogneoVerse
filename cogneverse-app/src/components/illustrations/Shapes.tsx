@@ -6,7 +6,7 @@ export const shapes = {
       <defs>
         <linearGradient id="blob1Gradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#FFBD76" />
-          <stop offset="100%" stopColor="#FF9A56" />
+          <stop offset="100%" stopColor="#EDA398" />
         </linearGradient>
         <filter id="blob1Noise">
           <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" />
@@ -44,7 +44,7 @@ export const shapes = {
       <defs>
         <radialGradient id="circleGradient" cx="30%" cy="30%">
           <stop offset="0%" stopColor="#FFBD76" />
-          <stop offset="100%" stopColor="#FF8A4C" />
+          <stop offset="100%" stopColor="#EDA398" />
         </radialGradient>
         <filter id="noiseFilter">
           <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
@@ -65,7 +65,7 @@ export const shapes = {
       <defs>
         <linearGradient id="starGradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#193497" />
-          <stop offset="100%" stopColor="#4B5CD3" />
+          <stop offset="100%" stopColor="#003F47" />
         </linearGradient>
       </defs>
       <path
@@ -81,7 +81,7 @@ export const shapes = {
       <defs>
         <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#003F47" />
-          <stop offset="100%" stopColor="#00666F" />
+          <stop offset="100%" stopColor="#193497" />
         </linearGradient>
       </defs>
       <circle cx="100" cy="100" r="70" fill="none" stroke="url(#ringGradient)" strokeWidth="20" />

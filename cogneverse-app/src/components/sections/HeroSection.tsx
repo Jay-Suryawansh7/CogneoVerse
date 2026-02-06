@@ -5,6 +5,8 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ArrowRight, Compass } from "lucide-react";
 import { AbstractBlob, GridPattern, WavePattern } from "@/components/illustrations/Shapes";
+import { ParticleBackground } from "@/components/effects/ParticleBackground";
+import { useParallax, useSplitTextReveal } from "@/lib/gsap";
 
 export function HeroSection() {
   const heroRef = useRef<HTMLElement>(null);
@@ -15,13 +17,19 @@ export function HeroSection() {
 
   const y = useTransform(scrollYProgress, [0, 1], [0, 150]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-
+  
+  // GSAP Hooks
+  const illustrationRef = useParallax(0.2); // Slower parallax for shapes
+  
   return (
     <section
       ref={heroRef}
       id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden gradient-hero"
     >
+      {/* WebGL Particle Background - Phase 6 Addition */}
+      <ParticleBackground />
+
       {/* Background Pattern */}
       <motion.div
         style={{ y }}
@@ -30,26 +38,28 @@ export function HeroSection() {
         <GridPattern />
       </motion.div>
 
-      {/* Decorative Blobs */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 0.15, scale: 1 }}
-        transition={{ duration: 1.2, delay: 0.3 }}
-        className="absolute top-20 -left-20 w-80 h-80 lg:w-[500px] lg:h-[500px] animate-float"
-        style={{ animationDelay: "0s" }}
-      >
-        <AbstractBlob variant="blob1" />
-      </motion.div>
+      {/* Decorative Blobs with GSAP Parallax */}
+      <div ref={illustrationRef} className="absolute inset-0 pointer-events-none overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 0.15, scale: 1 }}
+          transition={{ duration: 1.2, delay: 0.3 }}
+          className="absolute top-20 -left-20 w-80 h-80 lg:w-[500px] lg:h-[500px] animate-float"
+          style={{ animationDelay: "0s" }}
+        >
+          <AbstractBlob variant="blob1" />
+        </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 0.12, scale: 1 }}
-        transition={{ duration: 1.2, delay: 0.5 }}
-        className="absolute bottom-40 -right-20 w-72 h-72 lg:w-[400px] lg:h-[400px] animate-float"
-        style={{ animationDelay: "2s" }}
-      >
-        <AbstractBlob variant="blob2" />
-      </motion.div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 0.12, scale: 1 }}
+          transition={{ duration: 1.2, delay: 0.5 }}
+          className="absolute bottom-40 -right-20 w-72 h-72 lg:w-[400px] lg:h-[400px] animate-float"
+          style={{ animationDelay: "2s" }}
+        >
+          <AbstractBlob variant="blob2" />
+        </motion.div>
+      </div>
 
       {/* Main Content */}
       <motion.div
@@ -83,10 +93,18 @@ export function HeroSection() {
         >
           Build the{" "}
           <span
-            className="text-[var(--color-nectarine)] inline-block"
+            className="text-[var(--color-nectarine)] inline-block relative"
             style={{ fontFamily: "var(--font-script)" }}
           >
             Future.
+            {/* Subtle underline SVG for emphasis */}
+            <svg 
+              className="absolute w-full h-3 -bottom-1 left-0 text-[var(--color-nectarine)] opacity-60" 
+              viewBox="0 0 100 10" 
+              preserveAspectRatio="none"
+            >
+              <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="2" fill="none" />
+            </svg>
           </span>{" "}
           Together.
         </motion.h1>
@@ -158,7 +176,7 @@ export function HeroSection() {
       </motion.div>
 
       {/* Bottom Wave Transition */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 lg:h-32">
+      <div className="absolute bottom-0 left-0 right-0 h-24 lg:h-32 translate-y-1">
         <WavePattern />
       </div>
 

@@ -12,28 +12,28 @@ const products = [
     title: "AI Co-Engineer",
     description: "An intelligent coding assistant that understands your codebase and helps you build faster with context-aware suggestions.",
     features: ["Context-aware completion", "Code review automation", "Test generation"],
-    gradient: "from-[var(--color-nectarine)] to-[#FF8A4C]",
+    gradient: "from-[var(--color-nectarine)] to-[var(--color-pink-eraser)]",
   },
   {
     icon: Cpu,
     title: "Edge ML Runtime",
     description: "Deploy machine learning models to edge devices with optimized inference and minimal latency.",
     features: ["Model optimization", "Multi-platform support", "Real-time inference"],
-    gradient: "from-[var(--color-cobalt)] to-[#4B5CD3]",
+    gradient: "from-[var(--color-cobalt)] to-[var(--color-oceanic)]",
   },
   {
     icon: Zap,
     title: "Rapid Prototyper",
     description: "Go from idea to working prototype in hours with our automated scaffolding and component library.",
     features: ["Template library", "Auto-configuration", "One-click deploy"],
-    gradient: "from-[var(--color-oceanic)] to-[#00666F]",
+    gradient: "from-[var(--color-oceanic)] to-[var(--color-cobalt)]",
   },
   {
     icon: BarChart3,
     title: "Analytics Engine",
     description: "Track project metrics, team performance, and community engagement with real-time dashboards.",
     features: ["Custom dashboards", "Team insights", "Engagement metrics"],
-    gradient: "from-[#8B5CF6] to-[#A78BFA]",
+    gradient: "from-[var(--color-cobalt)] to-[var(--color-nectarine)]",
   },
 ];
 

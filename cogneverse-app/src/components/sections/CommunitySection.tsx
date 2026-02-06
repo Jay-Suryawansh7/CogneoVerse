@@ -14,14 +14,14 @@ const communityStats = [
 ];
 
 const members = [
-  { initials: "SC", color: "#FF6B6B", top: "10%", left: "5%" },
-  { initials: "JW", color: "#4ECDC4", top: "20%", left: "85%" },
-  { initials: "PS", color: "#FFE66D", top: "45%", left: "15%" },
-  { initials: "AK", color: "#95E1D3", top: "60%", left: "75%" },
-  { initials: "MB", color: "#DDA0DD", top: "75%", left: "40%" },
-  { initials: "TL", color: "#87CEEB", top: "15%", left: "45%" },
-  { initials: "RG", color: "#F0E68C", top: "80%", left: "10%" },
-  { initials: "NK", color: "#FFA07A", top: "35%", left: "90%" },
+  { initials: "SC", color: "var(--color-pink-eraser)", top: "10%", left: "5%" },
+  { initials: "JW", color: "var(--color-oceanic)", top: "20%", left: "85%" },
+  { initials: "PS", color: "var(--color-nectarine)", top: "45%", left: "15%" },
+  { initials: "AK", color: "var(--color-cobalt)", top: "60%", left: "75%" },
+  { initials: "MB", color: "var(--color-oceanic)", top: "75%", left: "40%" },
+  { initials: "TL", color: "var(--color-pink-eraser)", top: "15%", left: "45%" },
+  { initials: "RG", color: "var(--color-nectarine)", top: "80%", left: "10%" },
+  { initials: "NK", color: "var(--color-cobalt)", top: "35%", left: "90%" },
 ];
 
 export function CommunitySection() {
