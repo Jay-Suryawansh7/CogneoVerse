@@ -34,8 +34,8 @@ export default function HeroHeader() {
   ];
 
   return (
-    <header className="w-full top-0 z-50 fixed lg:absolute lg:flex lg:items-center lg:px-8 lg:py-4 text-primary-foreground backdrop-blur-sm lg:backdrop-blur-none">
-      <div className="flex md:max-w-[1400px] mx-auto w-full items-center relative justify-between h-16 px-4 bg-white/80 border-b lg:border border-[var(--color-ink)]/10 dark:border-[var(--color-paper)]/10 rounded-b-none lg:rounded-b-2xl lg:rounded-t-2xl dark:bg-[var(--color-onyx)]/90 backdrop-blur-md shadow-sm">
+    <header className="fixed top-0 left-0 w-full z-50 flex items-center px-4 lg:px-8 py-4 text-primary-foreground pointer-events-none">
+      <div className="pointer-events-auto flex md:max-w-[1400px] mx-auto w-full items-center relative justify-between h-16 px-4 bg-white/80 border-b lg:border border-[var(--color-ink)]/10 dark:border-[var(--color-paper)]/10 rounded-b-xl lg:rounded-b-2xl lg:rounded-t-2xl dark:bg-[var(--color-onyx)]/90 backdrop-blur-md shadow-sm transition-all duration-300">
         {/* Mobile Menu */}
         {isMobile && (
           <Drawer.Root direction="left" open={isOpen} onOpenChange={setIsOpen}>
@@ -52,7 +52,7 @@ export default function HeroHeader() {
                   <div className="w-full flex justify-between mb-6">
                     <Link href="/" className="flex items-center gap-2">
                        <span className="text-xl font-bold text-[var(--color-oceanic)] dark:text-[var(--color-paper)]" style={{ fontFamily: "var(--font-display)" }}>
-                        Cogneverse
+                        CogneoVerse
                       </span>
                     </Link>
                     <button
@@ -87,7 +87,7 @@ export default function HeroHeader() {
         {/* Desktop Title */}
         <Link href="/" className="flex items-center pl-2 group">
            <span className="text-xl font-bold text-[var(--color-oceanic)] dark:text-[var(--color-paper)] tracking-tight group-hover:opacity-80 transition-opacity" style={{ fontFamily: "var(--font-display)" }}>
-            Cogneverse
+            CogneoVerse
           </span>
           <span className="ml-3 hidden sm:inline-flex items-center px-2 py-0.5 rounded textxs font-medium bg-[var(--color-nectarine)]/10 text-[var(--color-oceanic)] border border-[var(--color-nectarine)]/20">
             BETA

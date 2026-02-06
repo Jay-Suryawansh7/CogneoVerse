@@ -1,5 +1,5 @@
 // import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
+import Footer from "@/components/layout/Footer";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { ProjectsSection } from "@/components/sections/ProjectsSection";
@@ -12,7 +12,7 @@ import { AcademySection } from "@/components/sections/AcademySection";
 import { HackathonsSection, EventsSection } from "@/components/sections/HackathonsEventsSection";
 import { BlogSection, TechStackSection } from "@/components/sections/BlogTechSection";
 import { CareersSection, PartnershipsSection } from "@/components/sections/CareersPartnershipsSection";
-import { TestimonialsSection, GlobalCTASection } from "@/components/sections/TestimonialsCTASection";
+import { TestimonialsSection } from "@/components/sections/TestimonialsCTASection";
 
 export default function HomePage() {
   return (
@@ -23,9 +23,7 @@ export default function HomePage() {
       {/* Hero Section */}
       <HeroSection />
 
-      {/* About Section */}
-      <AboutSection />
-
+      
       {/* Projects Section */}
       <ProjectsSection />
 
@@ -34,6 +32,9 @@ export default function HomePage() {
 
       {/* Departments Section */}
       <DepartmentsSection />
+
+      {/* About Section */}
+      <AboutSection />
 
       {/* Teams Section */}
       <TeamsSection />
@@ -66,10 +67,9 @@ export default function HomePage() {
       <PartnershipsSection />
 
       {/* Testimonials Section */}
+      <div className="mb-20">
       <TestimonialsSection />
-
-      {/* Global CTA Section */}
-      <GlobalCTASection />
+      </div>
 
       {/* Footer */}
       <Footer />

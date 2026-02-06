@@ -1,183 +1,176 @@
 "use client";
 
+import { cn } from "@/lib/utils";
+import { 
+  Facebook, 
+  Twitter, 
+  Linkedin, 
+  Instagram, 
+  ArrowUp,
+  Send
+} from "lucide-react";
 import Link from "next/link";
-import { Twitter, Github, Linkedin, Youtube } from "lucide-react";
 
-// Quick Links from copywriting.md
-const footerLinks = {
-  product: [
-    { label: "Projects", href: "#projects" },
-    { label: "Products", href: "#products" },
-    { label: "Academy", href: "#academy" },
-    { label: "Resources", href: "#resources" },
-  ],
-  community: [
-    { label: "Network", href: "#community" },
-    { label: "Teams", href: "#teams" },
-    { label: "Events", href: "#events" },
-    { label: "Hackathons", href: "#hackathons" },
-  ],
-  company: [
-    { label: "About", href: "#about" },
-    { label: "Careers", href: "#careers" },
-    { label: "Partners", href: "#partnerships" },
-    { label: "Support", href: "#" },
-  ],
-  legal: [
-    { label: "Privacy Policy", href: "#" },
-    { label: "Terms of Service", href: "#" },
-    { label: "Cookies", href: "#" },
-  ],
-};
+export default function Footer() {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
-const socialLinks = [
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Github, href: "#", label: "GitHub" },
-  { icon: Linkedin, href: "#", label: "LinkedIn" },
-  { icon: Youtube, href: "#", label: "YouTube" },
-];
-
-export function Footer() {
   return (
-    // Dark Mode Footer from brandkit: Background Oceanic, Text Paper, Accent Nectarine
-    <footer className="bg-[var(--color-onyx)] text-[var(--color-paper)]">
-      <div className="container-custom py-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 lg:gap-12">
+    <footer className="relative bg-[var(--color-paper)] dark:bg-[var(--color-onyx)] pt-32 pb-10 overflow-hidden">
+      <div className="container px-4 mx-auto relative z-10">
+        
+        {/* Newsletter Card */}
+        <div className="bg-white dark:bg-[var(--color-oceanic)] rounded-[2rem] p-8 md:p-12 shadow-xl mb-24 border border-[var(--color-ink)]/5 dark:border-[var(--color-paper)]/10">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+            <div className="text-center md:text-left">
+              <h3 className="text-2xl md:text-3xl font-bold text-[var(--color-oceanic)] dark:text-[var(--color-paper)] mb-2" style={{ fontFamily: "var(--font-display)" }}>
+                Join our Global Digest
+              </h3>
+              <p className="text-[var(--color-ink)]/70 dark:text-[var(--color-paper)]/70 max-w-md">
+                Join thousands of innovators shaping the future of technology. Get updates on new tools, hackathons, and research.
+              </p>
+            </div>
+            
+            <div className="w-full md:w-auto flex-1 max-w-lg">
+              <form className="flex flex-col sm:flex-row gap-3">
+                <input 
+                  type="email" 
+                  placeholder="email@company.com" 
+                  className="w-full flex-1 px-6 py-4 rounded-full bg-[var(--color-paper)] dark:bg-[var(--color-onyx)] border border-[var(--color-ink)]/10 dark:border-[var(--color-paper)]/10 focus:outline-hidden focus:ring-2 focus:ring-[var(--color-nectarine)] transition-all"
+                />
+                <button 
+                  type="button"
+                  className="px-8 py-4 rounded-full bg-[var(--color-cobalt)] hover:bg-[var(--color-oceanic)] text-white font-medium transition-colors shadow-lg hover:shadow-xl flex items-center justify-center gap-2 group"
+                >
+                  Subscribe
+                  <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </form>
+            </div>
+
+            <div className="flex items-center gap-4">
+               <div className="flex gap-2">
+                 {[Facebook, Twitter, Linkedin, Instagram].map((Icon, i) => (
+                    <a key={i} href="#" className="w-10 h-10 rounded-full bg-[var(--color-ink)]/5 dark:bg-[var(--color-paper)]/10 flex items-center justify-center hover:bg-[var(--color-nectarine)] dark:hover:bg-[var(--color-nectarine)] hover:text-white transition-all group">
+                      <Icon className="w-4 h-4 text-[var(--color-oceanic)] dark:text-[var(--color-paper)] group-hover:text-white" />
+                    </a>
+                  ))}
+               </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 mb-16">
           {/* Brand Column */}
-          <div className="col-span-2">
+          <div className="lg:col-span-4">
             <Link href="/" className="inline-block mb-6">
-              <span
-                className="text-2xl font-bold text-[var(--color-paper)]"
-                style={{ fontFamily: "var(--font-display)" }}
-              >
-                Cogneverse
+               <span className="text-3xl font-bold text-[var(--color-oceanic)] dark:text-[var(--color-paper)]" style={{ fontFamily: "var(--font-display)" }}>
+                CogneoVerse
               </span>
             </Link>
-            {/* Description from copywriting.md */}
-            <p
-              className="text-[var(--color-paper)]/60 mb-6 max-w-xs"
-              style={{ fontSize: "var(--text-small)", lineHeight: "var(--leading-relaxed)" }}
-            >
-              Cogneverse is an open innovation ecosystem empowering the next generation of technology leaders.
+            <p className="text-[var(--color-ink)]/70 dark:text-[var(--color-paper)]/70 mb-8 max-w-sm leading-relaxed">
+              The world's leading open innovation ecosystem empowering the next generation of technology leaders. Trusted by builders globally.
             </p>
-            {/* Social Links */}
-            <div className="flex items-center gap-4">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  aria-label={social.label}
-                  className="w-10 h-10 rounded-full bg-[var(--color-paper)]/10 flex items-center justify-center hover:bg-[var(--color-nectarine)] hover:text-[var(--color-ink)] transition-colors"
-                >
-                  <social.icon className="w-5 h-5" />
+            
+            <div className="flex gap-8">
+              <div>
+                <h4 className="font-bold text-sm uppercase tracking-wider text-[var(--color-oceanic)] dark:text-[var(--color-paper)] mb-2">Support</h4>
+                <a href="mailto:support@cogneoverse.org" className="text-[var(--color-cobalt)] dark:text-[var(--color-nectarine)] font-medium hover:underline">
+                  support@cogneoverse.org
                 </a>
-              ))}
+              </div>
+              <div>
+                <h4 className="font-bold text-sm uppercase tracking-wider text-[var(--color-oceanic)] dark:text-[var(--color-paper)] mb-2">Location</h4>
+                <span className="text-[var(--color-ink)]/70 dark:text-[var(--color-paper)]/70">
+                  San Francisco, CA
+                </span>
+              </div>
             </div>
           </div>
 
-          {/* Product Links */}
-          <div>
-            <h4
-              className="font-semibold text-[var(--color-paper)] mb-4"
-              style={{ fontFamily: "var(--font-display)" }}
-            >
-              Product
-            </h4>
-            <ul className="space-y-3">
-              {footerLinks.product.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-[var(--color-paper)]/60 hover:text-[var(--color-nectarine)] transition-colors"
-                    style={{ fontSize: "var(--text-small)" }}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* Links Columns */}
+          <div className="lg:col-span-8 grid grid-cols-2 md:grid-cols-4 gap-8">
+            {/* Products */}
+            <div>
+              <h4 className="font-bold text-sm uppercase tracking-wider text-[var(--color-ink)]/40 dark:text-[var(--color-paper)]/40 mb-6">Products</h4>
+              <ul className="space-y-4">
+                {["Web Builder", "CMS Pro", "Marketing AI", "E-commerce Engine", "Analytics Suite"].map((item) => (
+                  <li key={item}>
+                    <Link href="#" className="text-[var(--color-oceanic)] dark:text-[var(--color-paper)] font-medium hover:text-[var(--color-cobalt)] dark:hover:text-[var(--color-nectarine)] transition-colors">
+                      {item}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          {/* Community Links */}
-          <div>
-            <h4
-              className="font-semibold text-[var(--color-paper)] mb-4"
-              style={{ fontFamily: "var(--font-display)" }}
-            >
-              Community
-            </h4>
-            <ul className="space-y-3">
-              {footerLinks.community.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-[var(--color-paper)]/60 hover:text-[var(--color-nectarine)] transition-colors"
-                    style={{ fontSize: "var(--text-small)" }}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+            {/* Solutions */}
+            <div>
+              <h4 className="font-bold text-sm uppercase tracking-wider text-[var(--color-ink)]/40 dark:text-[var(--color-paper)]/40 mb-6">Solutions</h4>
+              <ul className="space-y-4">
+                {["Small Business", "Agencies", "Enterprise", "Non-Profits", "Startups", "Education"].map((item) => (
+                  <li key={item}>
+                    <Link href="#" className="text-[var(--color-oceanic)] dark:text-[var(--color-paper)] font-medium hover:text-[var(--color-cobalt)] dark:hover:text-[var(--color-nectarine)] transition-colors">
+                      {item}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          {/* Company Links */}
-          <div>
-            <h4
-              className="font-semibold text-[var(--color-paper)] mb-4"
-              style={{ fontFamily: "var(--font-display)" }}
-            >
-              Company
-            </h4>
-            <ul className="space-y-3">
-              {footerLinks.company.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-[var(--color-paper)]/60 hover:text-[var(--color-nectarine)] transition-colors"
-                    style={{ fontSize: "var(--text-small)" }}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+            {/* Resources */}
+            <div>
+              <h4 className="font-bold text-sm uppercase tracking-wider text-[var(--color-ink)]/40 dark:text-[var(--color-paper)]/40 mb-6">Resources</h4>
+              <ul className="space-y-4">
+                {["Help Center", "Community Forum", "Developer Portal", "System Status", "Video Tutorials", "Case Studies"].map((item) => (
+                  <li key={item}>
+                    <Link href="#" className="text-[var(--color-oceanic)] dark:text-[var(--color-paper)] font-medium hover:text-[var(--color-cobalt)] dark:hover:text-[var(--color-nectarine)] transition-colors">
+                      {item}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          {/* Legal Links */}
-          <div>
-            <h4
-              className="font-semibold text-[var(--color-paper)] mb-4"
-              style={{ fontFamily: "var(--font-display)" }}
-            >
-              Legal
-            </h4>
-            <ul className="space-y-3">
-              {footerLinks.legal.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-[var(--color-paper)]/60 hover:text-[var(--color-nectarine)] transition-colors"
-                    style={{ fontSize: "var(--text-small)" }}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            {/* Marketplace */}
+            <div>
+              <h4 className="font-bold text-sm uppercase tracking-wider text-[var(--color-ink)]/40 dark:text-[var(--color-paper)]/40 mb-6">Marketplace</h4>
+              <ul className="space-y-4">
+                {["App Directory", "Theme Store", "Expert Services", "Partner Program", "Template Gallery", "Affiliate"].map((item) => (
+                  <li key={item}>
+                    <Link href="#" className="text-[var(--color-oceanic)] dark:text-[var(--color-paper)] font-medium hover:text-[var(--color-cobalt)] dark:hover:text-[var(--color-nectarine)] transition-colors">
+                      {item}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-[var(--color-paper)]/10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-[var(--color-paper)]/40" style={{ fontSize: "var(--text-small)" }}>
-            © {new Date().getFullYear()} Cogneverse. All rights reserved.
+        <div className="pt-8 border-t border-[var(--color-ink)]/10 dark:border-[var(--color-paper)]/10 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-sm text-[var(--color-ink)]/50 dark:text-[var(--color-paper)]/50 font-medium">
+            © 2025 COGNEOVERSE INC. ALL RIGHTS RESERVED.
           </p>
-          <p className="text-[var(--color-paper)]/40" style={{ fontSize: "var(--text-small)" }}>
-            Built with{" "}
-            <span className="text-[var(--color-nectarine)]">♥</span> for innovators worldwide.
-          </p>
+          
+          <div className="flex gap-8 text-xs font-bold uppercase tracking-wider text-[var(--color-ink)]/50 dark:text-[var(--color-paper)]/50">
+            <Link href="#" className="hover:text-[var(--color-oceanic)] dark:hover:text-[var(--color-paper)] transition-colors">Privacy Policy</Link>
+            <Link href="#" className="hover:text-[var(--color-oceanic)] dark:hover:text-[var(--color-paper)] transition-colors">Terms of Service</Link>
+            <Link href="#" className="hover:text-[var(--color-oceanic)] dark:hover:text-[var(--color-paper)] transition-colors">SLA</Link>
+            <Link href="#" className="hover:text-[var(--color-oceanic)] dark:hover:text-[var(--color-paper)] transition-colors">Security</Link>
+          </div>
+
+          <button 
+            onClick={scrollToTop}
+            className="flex items-center gap-2 text-sm font-bold text-[var(--color-oceanic)] dark:text-[var(--color-paper)] hover:text-[var(--color-cobalt)] dark:hover:text-[var(--color-nectarine)] transition-colors"
+          >
+            Back to Top
+            <ArrowUp className="w-4 h-4" />
+          </button>
         </div>
+
       </div>
     </footer>
   );

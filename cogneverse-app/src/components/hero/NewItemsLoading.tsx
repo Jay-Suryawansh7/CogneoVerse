@@ -2,7 +2,7 @@
 
 const item = {
   href: "/products",
-  title: "Cogneverse 1.0",
+  title: "Orion 1.0",
 };
 
 export default function NewItemsLoading() {

@@ -69,7 +69,7 @@ export function HeroSection() {
     <div id="hero" className="p-0 overflow-hidden relative w-full">
       <HeroHeader />
       
-      <section className="h-screen overflow-hidden relative pb-20 dark:bg-[var(--color-onyx)] bg-[var(--color-paper)]">
+      <section className="min-h-screen relative pb-20 dark:bg-[var(--color-onyx)] bg-[var(--color-paper)] overflow-x-hidden">
         {/* Radial Background */}
         <div 
           className="absolute inset-0 z-0 h-full w-full dark:bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[radial-gradient(#000000_1px,transparent_1px)] opacity-10"
@@ -128,55 +128,57 @@ export function HeroSection() {
         </div>
 
         {/* Content */}
-        <article className="grid 2xl:pt-52 2xl:pb-24 py-40 relative z-10 sm:px-0 px-4">
+        <article className="grid pt-32 pb-12 relative z-10 sm:px-0 px-4 w-full">
           <NewItemsLoading />
-          <h1 className="xl:text-7xl md:text-6xl sm:text-5xl text-3xl text-center font-bold text-[var(--color-oceanic)] dark:text-white tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
+          <h1 className="xl:text-7xl md:text-6xl sm:text-5xl text-3xl text-center font-bold text-[var(--color-oceanic)] dark:text-white tracking-tight relative z-30" style={{ fontFamily: "var(--font-display)" }}>
             <span className="block text-[2.5rem] sm:text-5xl mb-2">Build Autonomous</span>{" "}
             <span className="relative translate-x-0 flex gap-2 justify-center flex-wrap">
               <span className="text-[var(--color-cobalt)] dark:text-[var(--color-nectarine)] mr-2">Intelligent</span>
               <WordAnimator
                 words={words}
                 duration={3}
-                className="italic w-fit pr-3 dark:bg-[var(--color-ink)] bg-white dark:border-[var(--color-paper)]/10 border-[var(--color-ink)]/10 text-[var(--color-oceanic)] dark:text-white"
+                className="italic w-fit pr-3 bg-[var(--color-onyx)] dark:bg-[var(--color-ink)] border-[var(--color-paper)]/10 text-[var(--color-nectarine)] dark:text-[var(--color-nectarine)] rounded-lg px-2"
               />{" "}
             </span>
           </h1>
           
-          <p className="mx-auto lg:w-[700px] sm:w-[80%] text-center sm:text-lg text-sm mt-8 text-[var(--color-ink)]/70 dark:text-[var(--color-paper)]/70" style={{ lineHeight: "var(--leading-relaxed)" }}>
+          <p className="mx-auto lg:w-[700px] sm:w-[80%] text-center sm:text-lg text-sm mt-4 text-[var(--color-ink)]/70 dark:text-[var(--color-paper)]/70 relative z-30" style={{ lineHeight: "var(--leading-relaxed)" }}>
             The open innovation ecosystem where engineers, designers, and AI builders collaborate to turn ideas into real-world technology.
             <strong> Design</strong>, <strong>Simulate</strong>, and <strong>Deploy</strong> faster.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-10">
-            <ShimmerButton
-              borderRadius={"100px"}
-              className={cn(
-                "flex items-center gap-2 w-fit rounded-full text-white border sm:px-6 px-4 py-3 shadow-xl"
-              )}
-              background={"var(--color-cobalt)"}
-              shimmerColor={"var(--color-nectarine)"}
-            >
-              <a href="/login" className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white lg:text-lg">
-                Join the Ecosystem
-              </a>
-            </ShimmerButton>
+          <div className="relative w-full flex justify-center -mt-[10vh] z-10">
+            {/* Buttons Overlay */}
+            <div className="absolute top-[18%] left-1/2 -translate-x-1/2 flex flex-col sm:flex-row gap-4 justify-center items-center z-20 w-full">
+              <ShimmerButton
+                borderRadius={"100px"}
+                className={cn(
+                  "flex items-center gap-2 w-fit rounded-full text-white border sm:px-6 px-4 py-3 shadow-xl"
+                )}
+                background={"var(--color-cobalt)"}
+                shimmerColor={"var(--color-nectarine)"}
+              >
+                <a href="/login" className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white lg:text-lg">
+                  Join the Ecosystem
+                </a>
+              </ShimmerButton>
 
-            <Button className="rounded-full px-8 h-[50px] bg-white text-[var(--color-ink)] border border-[var(--color-ink)]/10 hover:bg-[var(--color-ink)]/5 dark:bg-[var(--color-ink)] dark:text-[var(--color-paper)] dark:border-[var(--color-paper)]/10">
-              <a href="/docs" className="flex items-center">
-                Explore Docs
-                <ChevronsRight className="ml-2 w-4 h-4" />
-              </a>
-            </Button>
-          </div>
+              <Button className="rounded-full px-8 h-[50px] bg-white text-[var(--color-ink)] border border-[var(--color-ink)]/10 hover:bg-[var(--color-ink)]/5 dark:bg-[var(--color-ink)] dark:text-[var(--color-paper)] dark:border-[var(--color-paper)]/10 shadow-lg">
+                <a href="/docs" className="flex items-center">
+                  Explore Docs
+                  <ChevronsRight className="ml-2 w-4 h-4" />
+                </a>
+              </Button>
+            </div>
 
-          {/* Floating People Illustration */}
-          <div className="mt-16 flex justify-center w-full animate-float relative z-10 pointer-events-none select-none">
+            {/* Illustration */}
             <Image
               src="/people.svg"
-              alt="Cogneverse Community"
-              width={1000}
-              height={500}
-              className="w-full max-w-5xl h-auto opacity-95 drop-shadow-2xl"
+              alt="CogneoVerse Community"
+              width={1400}
+              
+              height={700}
+              className="w-[90vw] max-w-none h-auto drop-shadow-2xl opacity-90 pointer-events-none select-none"
               priority
             />
           </div>
