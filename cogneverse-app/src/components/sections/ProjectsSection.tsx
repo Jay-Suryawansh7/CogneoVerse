@@ -1,209 +1,252 @@
 "use client";
 
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { revealVariants, containerVariants } from "@/lib/animations";
 import { motion, AnimatePresence } from "framer-motion";
-import { Section, SectionHeader } from "@/components/layout/Section";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Section } from "@/components/layout/Section";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Star, GitFork, Plus, FolderOpen, Code, Rocket, X } from "lucide-react";
+import { ArrowRight, Star, GitFork, Plus, FolderOpen, Code, Rocket, X, Users, MousePointer2, MessageSquare, Zap } from "lucide-react";
 import { EmptyState } from "@/components/ui/interactive-empty-state";
 
-
+// --- Data ---
 const projects = [
   {
     title: "NeuralVision AI",
-    description: "Computer vision framework for real-time object detection and tracking in edge devices.",
-    tags: ["AI/ML", "Computer Vision", "Python"],
-    stars: 2345,
-    forks: 456,
-    image: "🧠",
+    description: "Computer vision framework for real-time object detection on edge devices.",
+    tags: ["AI/ML", "Vision"],
+    stars: "2.3k",
+    collaborators: 12,
+    icon: <Zap className="w-6 h-6 text-white" />,
+    color: "from-orange-400 to-pink-500" // Fallback/Tailwind colors mapped to brand later if needed or kept for vibrancy
   },
   {
     title: "SecureChain",
-    description: "Decentralized identity verification system using blockchain and zero-knowledge proofs.",
-    tags: ["Blockchain", "Security", "Rust"],
-    stars: 1890,
-    forks: 312,
-    image: "🔐",
+    description: "Decentralized identity verification using zero-knowledge proofs.",
+    tags: ["Blockchain", "Security"],
+    stars: "1.8k",
+    collaborators: 8,
+    icon: <Code className="w-6 h-6 text-white" />,
+    color: "from-blue-500 to-cyan-400"
   },
   {
     title: "RoboArm SDK",
-    description: "Open-source robotics control library for industrial and research automation projects.",
-    tags: ["Robotics", "IoT", "C++"],
-    stars: 1567,
-    forks: 289,
-    image: "🤖",
+    description: "Open control library for industrial automation and robotics.",
+    tags: ["Robotics", "C++"],
+    stars: "1.5k",
+    collaborators: 24,
+    icon: <Rocket className="w-6 h-6 text-white" />,
+    color: "from-purple-500 to-indigo-500"
   },
   {
     title: "DataFlow Pro",
-    description: "Real-time data pipeline orchestration tool for modern data engineering workflows.",
-    tags: ["Data Engineering", "Apache Kafka", "Go"],
-    stars: 1234,
-    forks: 198,
-    image: "📊",
-  },
-  {
-    title: "QuantumSim",
-    description: "Quantum computing simulator for algorithm development and educational purposes.",
-    tags: ["Quantum", "Research", "Julia"],
-    stars: 987,
-    forks: 156,
-    image: "⚛️",
-  },
-  {
-    title: "CloudNative Kit",
-    description: "Kubernetes operators and helm charts for deploying AI workloads at scale.",
-    tags: ["DevOps", "Kubernetes", "YAML"],
-    stars: 876,
-    forks: 134,
-    image: "☁️",
+    description: "Real-time orchestration tool for modern data engineering.",
+    tags: ["Data", "Go"],
+    stars: "1.2k",
+    collaborators: 5,
+    icon: <FolderOpen className="w-6 h-6 text-white" />,
+    color: "from-emerald-400 to-teal-500"
   },
 ];
+
+// --- Visual Components ---
+
+const FloatingCursor = ({ name, color, x, y, delay }: { name: string, color: string, x: number | string, y: number | string, delay: number }) => (
+  <motion.div
+    initial={{ opacity: 0, x: 0, y: 0 }}
+    animate={{ opacity: 1, x, y }}
+    transition={{ duration: 2, delay, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+    className="absolute z-20 pointer-events-none"
+    style={{ left: "50%", top: "50%" }}
+  >
+    <MousePointer2 className="w-4 h-4 fill-current rotate-12" style={{ color }} />
+    <div className="ml-3 px-2 py-0.5 rounded-full text-[10px] font-bold text-white whitespace-nowrap" style={{ backgroundColor: color }}>
+      {name}
+    </div>
+  </motion.div>
+);
+
+const AvatarStack = () => (
+  <div className="flex -space-x-2">
+    {["var(--color-oceanic)", "var(--color-nectarine)", "var(--color-cobalt)", "var(--color-pink-eraser)"].map((color, i) => (
+      <div key={i} className="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center text-[10px] font-bold text-white relative z-10" style={{ backgroundColor: color }}>
+        {String.fromCharCode(65 + i)}
+      </div>
+    ))}
+     <div className="w-8 h-8 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-[10px] font-bold text-gray-500 relative z-0">
+        +5
+      </div>
+  </div>
+);
+
+// --- Main Component ---
 
 export function ProjectsSection() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // Close dropdown logic
   useEffect(() => {
-    // Close dropdown on click outside
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsDropdownOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
-    <Section id="projects" variant="accent">
-      <SectionHeader
-        title="Explore Real-World Innovation"
-        subtitle="Discover community-built projects across AI, robotics, cybersecurity, IoT, blockchain, and advanced engineering. Build, fork, collaborate, and publish your work with complete documentation and version control."
-      />
+    <Section id="projects" className="bg-[var(--color-paper)] overflow-hidden">
+      
+      {/* --- Intro / Header --- */}
+      <div className="grid lg:grid-cols-2 gap-16 items-center mb-20">
+        
+        {/* Left Text */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={containerVariants}
+          className="relative z-10"
+        >
+            <motion.div variants={revealVariants} className="w-12 h-12 rounded-xl bg-[var(--color-oceanic)]/10 flex items-center justify-center mb-6">
+                 <Users className="w-6 h-6 text-[var(--color-oceanic)]" />
+            </motion.div>
 
-        {/* Add Project Dropdown Button */}
-        <div className="relative mt-8 mb-12" ref={dropdownRef}>
-            <button 
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="flex items-center gap-2 bg-[var(--color-cobalt)] hover:bg-[var(--color-oceanic)] text-white px-6 py-3 rounded-full font-medium transition-all shadow-lg hover:shadow-xl active:scale-95 z-30 relative mx-auto"
+            <motion.h2 
+                variants={revealVariants} 
+                className="text-4xl md:text-5xl font-bold text-[var(--color-ink)] mb-6 leading-[1.1]"
+                style={{ fontFamily: 'var(--font-display)' }}
             >
-                <Plus className={`w-5 h-5 transition-transform duration-300 ${isDropdownOpen ? 'rotate-45' : ''}`} />
-                Add Your Project
-            </button>
+                Build and ship <br/>
+                <span className="text-[var(--color-oceanic)]">innovation together</span>
+            </motion.h2>
 
-            <AnimatePresence>
-                {isDropdownOpen && (
-                <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute top-16 left-1/2 -translate-x-1/2 w-[90vw] max-w-md bg-white rounded-2xl shadow-2xl border border-[var(--color-ink)]/10 z-50 overflow-hidden text-left"
-                >
-                    <div className="p-2">
-                        <div className="flex justify-end pr-2 pt-2">
-                            <button onClick={() => setIsDropdownOpen(false)} className="text-[var(--color-ink)]/40 hover:text-[var(--color-oceanic)] transition-colors">
-                                <X className="w-5 h-5" />
-                            </button>
-                        </div>
-                        <EmptyState
-                            theme="light"
-                            title="Start a New Project"
-                            description="Share your innovation with the Cogneverse community. Get feedback, contributors, and visibility."
-                            icons={[
-                                <FolderOpen key="p1" className="h-6 w-6" />,
-                                <Code key="p2" className="h-6 w-6" />,
-                                <Rocket key="p3" className="h-6 w-6" />
-                            ]}
-                            action={{ 
-                                label: "Create Project", 
-                                icon: <Plus className="w-4 h-4" />,
-                                onClick: () => console.log("Create project clicked") 
-                            }}
-                            className="bg-transparent border-none shadow-none"
-                        />
-                    </div>
-                </motion.div>
-                )}
-            </AnimatePresence>
-        </div>
+            <motion.p variants={revealVariants} className="text-xl text-[var(--color-ink)]/70 mb-8 max-w-lg leading-relaxed">
+                All the tools needed for seamless collaboration ensuring your team stays in sync.
+            </motion.p>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {projects.map((project, index) => (
-          <motion.div
-            key={project.title}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
-            variants={revealVariants}
-            transition={{ delay: index * 0.1 }}
-          >
-            <Card className="h-full card-hover bg-white border-[var(--color-ink)]/5 overflow-hidden group">
-              {/* Project Icon/Image - 300px height as per chain-of-prompts.md */}
-              <div className="h-32 bg-gradient-to-br from-[var(--color-oceanic)] to-[var(--color-cobalt)] flex items-center justify-center text-5xl group-hover:scale-105 transition-transform duration-300">
-                {project.image}
-              </div>
-
-              <CardHeader className="pb-2">
-                <CardTitle
-                  className="text-lg group-hover:text-[var(--color-cobalt)] transition-colors"
-                  style={{ fontFamily: "var(--font-display)" }}
-                >
-                  {project.title}
-                </CardTitle>
-                <CardDescription className="line-clamp-2">
-                  {project.description}
-                </CardDescription>
-              </CardHeader>
-
-              <CardContent>
-                {/* Tags - Secondary Button Style */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="btn-secondary text-xs py-1 px-2"
+            {/* Call to Actions */}
+            <motion.div variants={revealVariants} className="flex flex-wrap gap-4" ref={dropdownRef}>
+                <div className="relative">
+                    <button
+                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                        className="btn-primary flex items-center gap-2 group"
                     >
-                      {tag}
-                    </span>
-                  ))}
+                         <Plus className={`w-5 h-5 transition-transform duration-300 ${isDropdownOpen ? 'rotate-45' : ''}`} />
+                         Create Project
+                    </button>
+
+                    {/* Dropdown */}
+                    <AnimatePresence>
+                        {isDropdownOpen && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 10, scale: 0.95, x: 0 }}
+                                animate={{ opacity: 1, y: 0, scale: 1, x: 0 }}
+                                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                className="absolute top-14 left-0 w-[320px] md:w-[400px] z-50 bg-white rounded-2xl shadow-xl border border-[var(--color-ink)]/5 p-2 origin-top-left"
+                            >
+                                 <EmptyState
+                                    theme="light"
+                                    title="New Project"
+                                    variant="subtle"
+                                    size="sm"
+                                    description="Start your journey."
+                                    icons={[<Code key="1" className="w-5 h-5"/>, <Rocket key="2" className="w-5 h-5"/>]}
+                                    action={{ label: "Initialize Repo", onClick: () => console.log("Init"), icon: <ArrowRight className="w-3" /> }}
+                                    className="bg-transparent"
+                                />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
 
-                {/* Stats */}
-                <div className="flex items-center gap-4 text-sm text-[var(--color-ink)]/50">
-                  <span className="flex items-center gap-1">
-                    <Star className="w-4 h-4" />
-                    {project.stars.toLocaleString()}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <GitFork className="w-4 h-4" />
-                    {project.forks}
-                  </span>
+                <button className="px-6 py-3 rounded-full border border-[var(--color-ink)]/10 text-[var(--color-ink)] font-medium hover:bg-[var(--color-ink)]/5 transition-colors">
+                    Explore Docs
+                </button>
+            </motion.div>
+        </motion.div>
+
+        {/* Right Visuals */}
+        <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative h-[300px] md:h-[400px] bg-[var(--color-ink)]/5 rounded-3xl border border-[var(--color-ink)]/5 p-8 flex flex-col justify-center items-center overflow-hidden"
+        >
+             {/* Floating UI Elements matching reference */}
+             <div className="absolute top-8 right-8 bg-white/80 backdrop-blur shadow-sm p-2 rounded-full border border-white/20 animate-pulse">
+                <div className="w-8 h-2 bg-[var(--color-oceanic)] rounded-full" />
+             </div>
+
+             <div className="bg-white rounded-2xl shadow-xl border border-[var(--color-ink)]/5 p-4 flex items-center gap-4 z-10 w-full max-w-xs transform md:-translate-x-8 md:-translate-y-8">
+                <AvatarStack />
+                <div className="h-8 w-[1px] bg-gray-200" />
+                <span className="text-2xl font-bold text-[var(--color-ink)]">5</span>
+                <span className="text-xs text-[var(--color-ink)]/50 uppercase font-semibold tracking-wider">Active<br/>Users</span>
+             </div>
+
+             <FloatingCursor name="Sarah" color="#FF5F5F" x={100} y={-40} delay={0} />
+             <FloatingCursor name="Dev3" color="#3B82F6" x={-80} y={60} delay={1.5} />
+             
+             {/* Abstract Badge */}
+             <div className="absolute bottom-8 left-8 py-2 px-4 bg-[var(--color-cobalt)] text-white rounded-lg shadow-lg flex items-center gap-2 transform rotate-3">
+                 <Rocket className="w-4 h-4" />
+                 <span className="text-sm font-bold">Shipping v2.0</span>
+             </div>
+        </motion.div>
+
+      </div>
+
+      {/* --- Projects Grid --- */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {projects.map((project, i) => (
+            <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="group h-full"
+            >
+                <div className="h-full bg-white rounded-2xl p-6 border border-[var(--color-ink)]/5 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1">
+                    
+                    {/* Icon Header */}
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-6 bg-gradient-to-br ${project.color} shadow-sm group-hover:scale-110 transition-transform duration-300`}>
+                        {project.icon}
+                    </div>
+
+                    <h3 className="text-lg font-bold text-[var(--color-ink)] mb-3" style={{ fontFamily: 'var(--font-display)' }}>
+                        {project.title}
+                    </h3>
+
+                    <p className="text-sm text-[var(--color-ink)]/60 mb-6 leading-relaxed line-clamp-3">
+                        {project.description}
+                    </p>
+
+                    <div className="mt-auto pt-6 border-t border-[var(--color-ink)]/5 flex items-center justify-between text-xs font-medium text-[var(--color-ink)]/50">
+                        <div className="flex items-center gap-4">
+                            <span className="flex items-center gap-1.5 hover:text-[var(--color-nectarine)] transition-colors">
+                                <Star className="w-3.5 h-3.5" />
+                                {project.stars}
+                            </span>
+                            <span className="flex items-center gap-1.5">
+                                <Users className="w-3.5 h-3.5" />
+                                {project.collaborators}
+                            </span>
+                        </div>
+                        { i === 0 && (
+                             <span className="text-[var(--color-cobalt)] flex items-center gap-1">
+                                <Zap className="w-3 h-3" /> Trending
+                             </span>
+                        )}
+                    </div>
                 </div>
-              </CardContent>
-            </Card>
-          </motion.div>
+            </motion.div>
         ))}
       </div>
 
-      {/* CTA - From copywriting.md */}
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={revealVariants}
-        className="text-center mt-12"
-      >
-        <a href="#" className="btn-ghost">
-          Browse Projects
-          <ArrowRight className="ml-2 w-4 h-4" />
-        </a>
-      </motion.div>
     </Section>
   );
 }
