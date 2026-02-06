@@ -3,7 +3,7 @@ import Footer from "@/components/layout/Footer";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { ProjectsSection } from "@/components/sections/ProjectsSection";
-import { ProductsSection } from "@/components/sections/ProductsSection";
+
 import { DepartmentsSection } from "@/components/sections/DepartmentsSection";
 import { TeamsSection } from "@/components/sections/TeamsSection";
 import { CommunitySection } from "@/components/sections/CommunitySection";
@@ -27,8 +27,7 @@ export default function HomePage() {
       {/* Projects Section */}
       <ProjectsSection />
 
-      {/* Products Section */}
-      <ProductsSection />
+
 
       {/* Departments Section */}
       <DepartmentsSection />
