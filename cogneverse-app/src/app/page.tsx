@@ -1,4 +1,4 @@
-import { Header } from "@/components/layout/Header";
+// import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { AboutSection } from "@/components/sections/AboutSection";
@@ -18,7 +18,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen overflow-x-hidden">
       {/* Header */}
-      <Header />
+      {/* Header - Integrated in HeroSection now */}
 
       {/* Hero Section */}
       <HeroSection />

@@ -21,15 +21,17 @@ export const metadata: Metadata = {
   },
 };
 
+import { Providers } from "@/components/providers";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className="antialiased min-h-screen">
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

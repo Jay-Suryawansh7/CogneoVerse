@@ -1,200 +1,175 @@
 "use client";
 
-import { revealVariants, containerVariants, itemVariants } from "@/lib/animations";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
-import { ArrowRight, Compass } from "lucide-react";
-import { AbstractBlob, GridPattern, WavePattern } from "@/components/illustrations/Shapes";
-import { ParticleBackground } from "@/components/effects/ParticleBackground";
-import { useParallax, useSplitTextReveal } from "@/lib/gsap";
+import { cn } from "@/lib/utils";
+import { useEffect, useMemo, useState } from "react";
+import HeroHeader from "@/components/hero/HeroHeader";
+import NewItemsLoading from "@/components/hero/NewItemsLoading";
+import WordAnimator from "@/components/ui/word-animator";
+import ShimmerButton from "@/components/ui/shimmer-button";
+import { Button } from "@/components/ui/button";
+import { ChevronsRight } from "lucide-react";
+import { Section } from "@/components/layout/Section";
 
 export function HeroSection() {
-  const heroRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
+  const [blocks, setBlocks] = useState<React.ReactNode[]>([]);
 
-  const y = useTransform(scrollYProgress, [0, 1], [0, 150]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  
-  // GSAP Hooks
-  const illustrationRef = useParallax(0.2); // Slower parallax for shapes
-  
-  return (
-    <section
-      ref={heroRef}
-      id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden gradient-hero"
-    >
-      {/* WebGL Particle Background - Phase 6 Addition */}
-      <ParticleBackground />
+  const activeDivs = useMemo(
+    () => ({
+      0: new Set([4, 1]),
+      2: new Set([3]),
+      4: new Set([2, 5, 8]),
+      5: new Set([4]),
+      6: new Set([0]),
+      7: new Set([1]),
+      10: new Set([3]),
+      12: new Set([7]),
+      13: new Set([2, 4]),
+      14: new Set([1, 5]),
+      15: new Set([3, 6]),
+    }),
+    []
+  );
 
-      {/* Background Pattern */}
-      <motion.div
-        style={{ y }}
-        className="absolute inset-0 opacity-10 pointer-events-none"
-      >
-        <GridPattern />
-      </motion.div>
+  useEffect(() => {
+    const updateBlocks = () => {
+      const { innerWidth, innerHeight } = window;
+      const blockSize = innerWidth * 0.06; // Using 6vw
+      const amountOfBlocks = Math.ceil(innerHeight / blockSize);
 
-      {/* Decorative Blobs with GSAP Parallax */}
-      <div ref={illustrationRef} className="absolute inset-0 pointer-events-none overflow-hidden">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 0.15, scale: 1 }}
-          transition={{ duration: 1.2, delay: 0.3 }}
-          className="absolute top-20 -left-20 w-80 h-80 lg:w-[500px] lg:h-[500px] animate-float"
-          style={{ animationDelay: "0s" }}
-        >
-          <AbstractBlob variant="blob1" />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 0.12, scale: 1 }}
-          transition={{ duration: 1.2, delay: 0.5 }}
-          className="absolute bottom-40 -right-20 w-72 h-72 lg:w-[400px] lg:h-[400px] animate-float"
-          style={{ animationDelay: "2s" }}
-        >
-          <AbstractBlob variant="blob2" />
-        </motion.div>
-      </div>
-
-      {/* Main Content */}
-      <motion.div
-        style={{ opacity }}
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="container-custom relative z-10 text-center pt-20"
-      >
-        {/* Brand Tag */}
-        <motion.div
-          variants={itemVariants}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-8"
-        >
-          <Compass className="w-4 h-4 text-[var(--color-nectarine)]" />
-          <span className="text-sm font-medium text-[var(--color-paper)]">
-            Open Innovation Ecosystem
-          </span>
-        </motion.div>
-
-        {/* Headline - From copywriting.md */}
-        <motion.h1
-          variants={itemVariants}
-          className="text-[var(--color-paper)] mb-6 max-w-4xl mx-auto"
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "var(--text-hero)",
-            lineHeight: "var(--leading-tight)",
-            letterSpacing: "var(--tracking-tight)",
-          }}
-        >
-          Build the{" "}
-          <span
-            className="text-[var(--color-nectarine)] inline-block relative"
-            style={{ fontFamily: "var(--font-script)" }}
-          >
-            Future.
-            {/* Subtle underline SVG for emphasis */}
-            <svg 
-              className="absolute w-full h-3 -bottom-1 left-0 text-[var(--color-nectarine)] opacity-60" 
-              viewBox="0 0 100 10" 
-              preserveAspectRatio="none"
-            >
-              <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="2" fill="none" />
-            </svg>
-          </span>{" "}
-          Together.
-        </motion.h1>
-
-        {/* Subheadline - From copywriting.md */}
-        <motion.p
-          variants={itemVariants}
-          className="text-[var(--color-paper)]/90 max-w-2xl mx-auto mb-10"
-          style={{
-            fontSize: "var(--text-body-lg)",
-            lineHeight: "var(--leading-relaxed)",
-          }}
-        >
-          An open innovation ecosystem where engineers, designers, and AI builders 
-          collaborate to turn ideas into real-world technology.
-        </motion.p>
-
-        {/* CTAs - From copywriting.md */}
-        <motion.div
-          variants={itemVariants}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
-        >
-          {/* Primary CTA with pulse animation */}
-          <a
-            href="#projects"
-            className="btn-primary animate-cta-pulse"
-          >
-            Start Building
-            <ArrowRight className="ml-2 w-5 h-5" />
-          </a>
-          {/* Secondary CTA */}
-          <a
-            href="#projects"
-            className="btn-ghost text-[var(--color-paper)] border-[var(--color-paper)]/30 hover:bg-[var(--color-paper)]/10 hover:text-[var(--color-paper)]"
-          >
-            <Compass className="mr-2 w-5 h-5" />
-            Explore Projects
-          </a>
-        </motion.div>
-
-        {/* Stats Grid */}
-        <motion.div
-          variants={itemVariants}
-          className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-12 max-w-3xl mx-auto pt-8 border-t border-[var(--color-paper)]/10"
-        >
-          {[
-            { value: "10K+", label: "Builders" },
-            { value: "2,500+", label: "Projects" },
-            { value: "100+", label: "Partners" },
-            { value: "50+", label: "Countries" },
-          ].map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 + index * 0.12, duration: 0.5 }}
-              className="text-center"
-            >
-              <div
-                className="text-3xl lg:text-4xl font-bold text-[var(--color-paper)] mb-1"
-                style={{ fontFamily: "var(--font-display)" }}
-              >
-                {stat.value}
-              </div>
-              <div className="text-sm text-[var(--color-paper)]/60">{stat.label}</div>
-            </motion.div>
+      const newBlocks = Array.from({ length: 17 }, (_, columnIndex) => (
+        <div key={columnIndex} className="w-[6vw] h-full">
+          {Array.from({ length: amountOfBlocks }, (_, rowIndex) => (
+            <div
+              key={rowIndex}
+              className={cn(
+                "h-[6vw] w-full border dark:border-[rgba(255,255,255,0.015)] border-[var(--color-ink)]/5",
+                // @ts-ignore
+                activeDivs[columnIndex]?.has(rowIndex)
+                  ? "dark:bg-[rgba(255,255,255,0.03)] bg-[var(--color-cobalt)]/5"
+                  : ""
+              )}
+              style={{ height: `${blockSize}px` }}
+            ></div>
           ))}
-        </motion.div>
-      </motion.div>
+        </div>
+      ));
+      setBlocks(newBlocks);
+    };
 
-      {/* Bottom Wave Transition */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 lg:h-32 translate-y-1">
-        <WavePattern />
-      </div>
+    updateBlocks();
+    window.addEventListener("resize", updateBlocks);
 
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.5, duration: 0.5 }}
-        className="absolute bottom-32 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-      >
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          className="w-6 h-10 border-2 border-[var(--color-paper)]/30 rounded-full flex items-start justify-center p-1"
-        >
-          <motion.div className="w-1.5 h-2.5 bg-[var(--color-nectarine)] rounded-full" />
-        </motion.div>
-      </motion.div>
-    </section>
+    return () => window.removeEventListener("resize", updateBlocks);
+  }, [activeDivs]);
+
+  const words = ["Robots", "AI Models", "Systems", "Future"];
+
+  return (
+    <Section id="hero" className="p-0 overflow-hidden relative">
+      <HeroHeader />
+      
+      <section className="h-screen overflow-hidden relative pb-20 dark:bg-[var(--color-onyx)] bg-[var(--color-paper)]">
+        {/* Radial Background */}
+        <div className="absolute inset-0 z-0 h-screen w-full dark:bg-[radial-gradient(#ffffff_1px,transparent_1px)] bg-[radial-gradient(#000000_1px,transparent_1px)] bg-[size:16px_16px] opacity-10"></div>
+        
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 top-0 left-0 h-screen w-full items-center px-5 py-24 bg-gradient-to-t dark:from-[var(--color-onyx)] from-[var(--color-paper)] from-0% to-transparent to-60%"></div>
+
+        {/* Decorative SVG */}
+        <div className="pointer-events-none absolute inset-0 flex w-screen justify-end [mask-image:radial-gradient(transparent_5%,white)]">
+          <svg
+            width="1512"
+            height="1714"
+            viewBox="0 0 1512 1714"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="pointer-events-none absolute left-0 top-0 h-auto w-full lg:w-1/2 opacity-20"
+          >
+            <g clipPath="url(#clip0_143_13)">
+              <g filter="url(#filter0_f_143_13)">
+                <path
+                  d="M1045.18 982.551C1129.83 903.957 204.996 477.237 -235.529 294L-339.645 584.211C59.2367 752.376 960.521 1061.15 1045.18 982.551Z"
+                  fill="var(--color-cobalt)"
+                  fillOpacity="0.4"
+                ></path>
+              </g>
+            </g>
+            <defs>
+              <filter
+                id="filter0_f_143_13"
+                x="-595.645"
+                y="38"
+                width="1902.26"
+                height="1213.13"
+                filterUnits="userSpaceOnUse"
+                colorInterpolationFilters="sRGB"
+              >
+                <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
+                <feBlend
+                  mode="normal"
+                  in="SourceGraphic"
+                  in2="BackgroundImageFix"
+                  result="shape"
+                ></feBlend>
+                <feGaussianBlur
+                  stdDeviation="64"
+                  result="effect1_foregroundBlur_143_13"
+                ></feGaussianBlur>
+              </filter>
+              <clipPath id="clip0_143_13">
+                <rect width="1512" height="1714" fill="white"></rect>
+              </clipPath>
+            </defs>
+          </svg>
+        </div>
+
+        {/* Content */}
+        <article className="grid 2xl:pt-52 2xl:pb-24 py-40 relative z-10 sm:px-0 px-4">
+          <NewItemsLoading />
+          <h1 className="xl:text-7xl md:text-6xl sm:text-5xl text-3xl text-center font-bold text-[var(--color-oceanic)] dark:text-white tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
+            <span className="block text-[2.5rem] sm:text-5xl mb-2">Build Autonomous</span>{" "}
+            <span className="relative translate-x-0 flex gap-2 justify-center flex-wrap">
+              <span className="text-[var(--color-cobalt)] dark:text-[var(--color-nectarine)] mr-2">Intelligent</span>
+              <WordAnimator
+                words={words}
+                duration={3}
+                className="italic w-fit pr-3 dark:bg-[var(--color-ink)] bg-white dark:border-[var(--color-paper)]/10 border-[var(--color-ink)]/10 text-[var(--color-oceanic)] dark:text-white"
+              />{" "}
+            </span>
+          </h1>
+          
+          <p className="mx-auto lg:w-[700px] sm:w-[80%] text-center sm:text-lg text-sm mt-8 text-[var(--color-ink)]/70 dark:text-[var(--color-paper)]/70" style={{ lineHeight: "var(--leading-relaxed)" }}>
+            The open innovation ecosystem where engineers, designers, and AI builders collaborate to turn ideas into real-world technology.
+            <strong> Design</strong>, <strong>Simulate</strong>, and <strong>Deploy</strong> faster.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-10">
+            <ShimmerButton
+              borderRadius={"100px"}
+              className={cn(
+                "flex items-center gap-2 w-fit rounded-full text-white border sm:px-6 px-4 py-3 shadow-xl"
+              )}
+              background={"var(--color-cobalt)"}
+              shimmerColor={"var(--color-nectarine)"}
+            >
+              <a href="/login" className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white lg:text-lg">
+                Join the Ecosystem
+              </a>
+            </ShimmerButton>
+
+            <Button className="rounded-full px-8 h-[50px] bg-white text-[var(--color-ink)] border border-[var(--color-ink)]/10 hover:bg-[var(--color-ink)]/5 dark:bg-[var(--color-ink)] dark:text-[var(--color-paper)] dark:border-[var(--color-paper)]/10">
+              <a href="/docs" className="flex items-center">
+                Explore Docs
+                <ChevronsRight className="ml-2 w-4 h-4" />
+              </a>
+            </Button>
+          </div>
+        </article>
+
+        <div className="flex h-screen overflow-hidden top-0 left-0 inset-0 z-0 absolute pointer-events-none">
+          {blocks}
+        </div>
+      </section>
+    </Section>
   );
 }
