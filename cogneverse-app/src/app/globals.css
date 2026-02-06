@@ -1,0 +1,626 @@
+/* Google Fonts - Premium alternatives for Didot and Beloved Script */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Dancing+Script:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================
+   COGNEVERSE DESIGN TOKENS
+   Based on brandkit.md - Exact Specifications
+   ============================================ */
+
+:root {
+  /* Core Brand Colors - From brandkit.md */
+  --color-oceanic: #003F47;
+  --color-cobalt: #193497;
+  --color-nectarine: #FFBD76;
+  --color-paper: #F9F6EF;
+  --color-ink: #282828;
+  --color-onyx: #0A171D;
+  --color-pink-eraser: #EDA398;
+
+  /* RGB Values for shadows */
+  --color-oceanic-rgb: 0, 63, 71;
+  --color-nectarine-rgb: 255, 189, 118;
+  --color-cobalt-rgb: 25, 52, 151;
+
+  /* Typography - Brand Fonts */
+  /* Primary Display Script: Beloved Script → Dancing Script (substitute) */
+  /* Primary Serif: Didot Bold → Playfair Display (substitute) */
+  /* Primary Sans: Classy → DM Sans (substitute) */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-script: 'Dancing Script', cursive;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+
+  /* Typography Scale - As per chain-of-prompts.md */
+  --text-hero: clamp(32px, 5vw, 72px);
+  --text-h1: clamp(28px, 4vw, 48px);
+  --text-h2: clamp(24px, 3vw, 40px);
+  --text-h3: clamp(20px, 2.5vw, 32px);
+  --text-h4: clamp(18px, 2vw, 24px);
+  --text-body-lg: clamp(16px, 1.5vw, 20px);
+  --text-body: clamp(14px, 1.2vw, 16px);
+  --text-small: clamp(12px, 1vw, 14px);
+
+  /* Line Height - From brandkit.md */
+  --leading-tight: 1.2;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.6;
+  --leading-loose: 1.75;
+
+  /* Letter Spacing */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.5px;
+
+  /* Spacing Scale (8px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+  /* Border Radius - From chain-of-prompts.md */
+  --radius: 0.625rem;
+  --radius-none: 0;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+  --radius-button: 32px;
+
+  /* Shadows - From chain-of-prompts.md */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.06);
+  --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.15);
+  --shadow-accent: 0 4px 12px rgba(var(--color-nectarine-rgb), 0.3);
+  --shadow-accent-hover: 0 6px 20px rgba(var(--color-nectarine-rgb), 0.4);
+  --shadow-oceanic: 0 4px 12px rgba(var(--color-oceanic-rgb), 0.2);
+
+  /* Animation Timing - From brandkit.md */
+  --duration-fast: 0.1s;
+  --duration-normal: 0.2s;
+  --duration-slow: 0.3s;
+  --duration-slower: 0.5s;
+  --duration-reveal: 0.7s;
+  --ease-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-power2: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* shadcn/ui Theme Overrides */
+  --background: #F9F6EF;
+  --foreground: #282828;
+  --card: #FFFFFF;
+  --card-foreground: #282828;
+  --popover: #FFFFFF;
+  --popover-foreground: #282828;
+  --primary: #003F47;
+  --primary-foreground: #F9F6EF;
+  --secondary: #193497;
+  --secondary-foreground: #FFFFFF;
+  --muted: #E8E8E8;
+  --muted-foreground: #5C5C5C;
+  --accent: #FFBD76;
+  --accent-foreground: #282828;
+  --destructive: #EDA398;
+  --border: rgba(40, 40, 40, 0.1);
+  --input: rgba(40, 40, 40, 0.15);
+  --ring: #003F47;
+}
+
+/* Dark Mode - From brandkit.md */
+.dark {
+  --background: #0A171D;
+  --foreground: #F9F6EF;
+  --card: #003F47;
+  --card-foreground: #F9F6EF;
+  --popover: #003F47;
+  --popover-foreground: #F9F6EF;
+  --primary: #F9F6EF;
+  --primary-foreground: #003F47;
+  --secondary: #193497;
+  --secondary-foreground: #F9F6EF;
+  --muted: #1A2B33;
+  --muted-foreground: #A8A8A8;
+  --accent: #FFBD76;
+  --accent-foreground: #282828;
+  --destructive: #EDA398;
+  --border: rgba(249, 246, 239, 0.1);
+  --input: rgba(249, 246, 239, 0.15);
+  --ring: #FFBD76;
+}
+
+/* ============================================
+   TAILWIND THEME INTEGRATION
+   ============================================ */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Brand Colors */
+  --color-oceanic: var(--color-oceanic);
+  --color-cobalt: var(--color-cobalt);
+  --color-nectarine: var(--color-nectarine);
+  --color-paper: var(--color-paper);
+  --color-ink: var(--color-ink);
+  --color-onyx: var(--color-onyx);
+
+  /* Fonts */
+  --font-display: var(--font-display);
+  --font-script: var(--font-script);
+  --font-body: var(--font-body);
+
+  /* Radius */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background-color: var(--background);
+    color: var(--foreground);
+    font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: var(--leading-relaxed);
+  }
+
+  /* Typography Hierarchy - From brandkit.md */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  h1 {
+    font-size: var(--text-h1);
+  }
+
+  h2 {
+    font-size: var(--text-h2);
+  }
+
+  h3 {
+    font-size: var(--text-h3);
+    font-weight: 600;
+  }
+
+  h4 {
+    font-size: var(--text-h4);
+  }
+
+  p {
+    line-height: var(--leading-loose);
+    font-size: var(--text-body);
+  }
+
+  /* Script accent text - Beloved Script alternative */
+  .text-script {
+    font-family: var(--font-script);
+    font-weight: 500;
+  }
+
+  /* Selection styling */
+  ::selection {
+    background-color: var(--color-nectarine);
+    color: var(--color-ink);
+  }
+}
+
+/* ============================================
+   COMPONENT UTILITIES - From chain-of-prompts.md
+   ============================================ */
+
+@layer components {
+
+  /* Container - As per chain-of-prompts.md */
+  .container-custom {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  @media (max-width: 1199px) {
+    .container-custom {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .container-custom {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+  }
+
+  /* Section Padding - From chain-of-prompts.md */
+  .section-padding {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+
+  @media (max-width: 1199px) {
+    .section-padding {
+      padding-top: 60px;
+      padding-bottom: 60px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .section-padding {
+      padding-top: 40px;
+      padding-bottom: 40px;
+    }
+  }
+
+  /* Gradient backgrounds */
+  .gradient-hero {
+    background: linear-gradient(135deg, var(--color-oceanic) 0%, var(--color-cobalt) 100%);
+  }
+
+  .gradient-accent {
+    background: linear-gradient(135deg, var(--color-nectarine) 0%, #FFCD94 100%);
+  }
+
+  /* Noise texture overlay */
+  .noise-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ============================================
+     BUTTON SYSTEM - From brandkit.md & chain-of-prompts.md
+     ============================================ */
+
+  /* Primary Button (Accent) */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 36px;
+    background-color: var(--color-nectarine);
+    color: var(--color-ink);
+    font-weight: 600;
+    font-size: 16px;
+    border-radius: 32px;
+    box-shadow: var(--shadow-accent);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-accent-hover);
+    filter: brightness(0.92);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0) scale(0.97);
+  }
+
+  /* Secondary Button (Tag Style) */
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    background-color: #E8E8E8;
+    color: var(--color-oceanic);
+    font-weight: 500;
+    font-size: 14px;
+    border: 1px solid #D0D0D0;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--color-nectarine);
+    color: var(--color-ink);
+    border-color: var(--color-nectarine);
+  }
+
+  /* Ghost Button */
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    background-color: transparent;
+    color: var(--color-oceanic);
+    font-weight: 600;
+    font-size: 16px;
+    border: 2px solid var(--color-oceanic);
+    border-radius: 32px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .btn-ghost:hover {
+    background-color: var(--color-oceanic);
+    color: white;
+  }
+
+  /* ============================================
+     CARD STYLES - From brandkit.md
+     ============================================ */
+
+  /* Default Card */
+  .card-default {
+    background-color: var(--color-paper);
+    border: 1px solid rgba(40, 40, 40, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Card Hover Effect - From brandkit.md */
+  .card-hover {
+    transition: transform var(--duration-slow) var(--ease-out),
+      box-shadow var(--duration-slow) var(--ease-out),
+      border-color var(--duration-slow) var(--ease-out);
+  }
+
+  .card-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+    border-color: rgba(255, 189, 118, 0.3);
+  }
+
+  /* Featured Card */
+  .card-featured {
+    border: 2px solid var(--color-nectarine);
+    position: relative;
+  }
+
+  .card-featured::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: var(--color-oceanic);
+    border-radius: 12px 12px 0 0;
+  }
+
+  /* ============================================
+     FORM INPUTS - From brandkit.md
+     ============================================ */
+
+  .input-default {
+    padding: 12px 16px;
+    border: 2px solid #D0D0D0;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: var(--color-paper);
+    transition: all 0.2s ease;
+  }
+
+  .input-default:focus {
+    outline: none;
+    border-color: var(--color-cobalt);
+    box-shadow: 0 0 0 3px rgba(var(--color-cobalt-rgb), 0.1);
+  }
+
+  .input-error {
+    border-color: var(--color-pink-eraser);
+  }
+
+  /* ============================================
+     NAVIGATION STYLES - From brandkit.md
+     ============================================ */
+
+  .nav-link {
+    position: relative;
+    transition: color var(--duration-normal) var(--ease-out);
+  }
+
+  .nav-link:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--color-nectarine);
+    text-underline-offset: 4px;
+  }
+
+  /* ============================================
+     HEADER STYLES - From chain-of-prompts.md
+     ============================================ */
+
+  .header {
+    height: 80px;
+    background: transparent;
+    transition: background 0.3s ease;
+  }
+
+  .header-scrolled {
+    background: rgba(0, 63, 71, 0.95);
+    backdrop-filter: blur(10px);
+  }
+
+  @media (max-width: 767px) {
+    .header {
+      height: 60px;
+    }
+  }
+}
+
+/* ============================================
+   ANIMATIONS - From brandkit.md
+   ============================================ */
+
+@layer utilities {
+
+  /* Stagger animation delays */
+  .animate-delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .animate-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .animate-delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .animate-delay-400 {
+    animation-delay: 400ms;
+  }
+
+  .animate-delay-500 {
+    animation-delay: 500ms;
+  }
+
+  /* Fade in up animation - Section Reveal from brandkit.md */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.7s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+  }
+
+  /* CTA Pulse - From brandkit.md (Scale: 1 → 1.04 → 1, Loop: 6s) */
+  @keyframes ctaPulse {
+
+    0%,
+    100% {
+      transform: scale(1);
+    }
+
+    50% {
+      transform: scale(1.04);
+    }
+  }
+
+  .animate-cta-pulse {
+    animation: ctaPulse 6s ease-in-out infinite;
+  }
+
+  /* Gentle float animation */
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  /* Page load fade - From brandkit.md */
+  @keyframes pageLoad {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  .animate-page-load {
+    animation: pageLoad 0.5s ease-out forwards;
+  }
+
+  /* Accent element delay (+120ms) */
+  .animate-accent-delay {
+    animation-delay: 120ms;
+  }
+
+  /* Global hover effect - From brandkit.md (Duration: 220ms) */
+  .hover-global {
+    transition: filter 220ms ease-out;
+  }
+
+  .hover-global:hover {
+    filter: brightness(1.04) saturate(1.03);
+  }
+}
+
+/* ============================================
+   RESPONSIVE UTILITIES
+   ============================================ */
+
+@media (max-width: 767px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .hide-desktop {
+    display: none !important;
+  }
+}
